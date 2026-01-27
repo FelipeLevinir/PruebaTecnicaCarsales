@@ -44,8 +44,8 @@ El objetivo es demostrar:
 dotnet --list-sdks
 ```
 ### Frontend
--Node.js 18+
--Angular CLI 19
+- Node.js 18+
+- Angular CLI 19
 ```
 node -v
 npm -v
@@ -65,9 +65,9 @@ http://localhost:5188
 
 Endpoints principales
 
--GET /api/episodes?page=1
--GET /api/characters?page=1
--GET /api/characters/{id}
+- GET /api/episodes?page=1
+- GET /api/characters?page=1
+- GET /api/characters/{id}
 
 ## Levantar el Frontend (Angular)
 
