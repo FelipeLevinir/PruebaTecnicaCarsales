@@ -1,0 +1,22 @@
+<aside class="sidebar">
+  <div class="brand">
+    <div class="brand-title">Rick & Morty</div>
+  </div>
+
+  <nav class="menu">
+    <a routerLink="/dashboard" routerLinkActive="active" class="menu-item" [routerLinkActiveOptions]="{ exact: true }">
+      <i class="pi pi-chart-bar"></i>
+      <span>Dashboard</span>
+    </a>
+
+    <a routerLink="/episodes" routerLinkActive="active" class="menu-item">
+      <i class="pi pi-video"></i>
+      <span>Episodios</span>
+    </a>
+
+    <a routerLink="/characters" routerLinkActive="active" class="menu-item">
+      <i class="pi pi-users"></i>
+      <span>Personajes</span>
+    </a>
+  </nav>
+</aside>

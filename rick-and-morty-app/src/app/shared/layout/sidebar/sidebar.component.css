@@ -1,0 +1,74 @@
+.sidebar {
+  width: 280px;
+  padding: 1rem;
+  border-right: 1px solid #e5e7eb;
+  background: #0b1220;
+  color: #e5e7eb;
+}
+
+.sidebar {
+  width: 280px;
+  min-height: 100vh;          
+  height: 100vh;              
+  position: sticky;           
+  top: 0;
+
+  padding: 1rem;
+  border-right: 1px solid #e5e7eb;
+  background: #0b1220;
+  color: #e5e7eb;
+  overflow: auto;             
+}
+
+.brand {
+  padding: 0.5rem 0.75rem 1rem 0.75rem;
+  border-bottom: 1px solid rgba(229, 231, 235, 0.12);
+  margin-bottom: 1rem;
+}
+
+.brand-title {
+  font-weight: 800;
+  font-size: 1.1rem;
+  letter-spacing: 0.2px;
+}
+
+.brand-subtitle {
+  margin-top: 0.2rem;
+  font-size: 0.85rem;
+  color: rgba(229, 231, 235, 0.7);
+}
+
+.menu {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.75rem 0.75rem;
+  border-radius: 12px;
+  text-decoration: none;
+  color: rgba(229, 231, 235, 0.85);
+  transition: background 140ms ease, transform 140ms ease, color 140ms ease;
+}
+
+.menu-item i {
+  font-size: 1.05rem;
+  opacity: 0.9;
+}
+
+.menu-item:hover {
+  background: rgba(255, 255, 255, 0.06);
+  color: #ffffff;
+  transform: translateY(-1px);
+}
+
+/* Seleccionado */
+.menu-item.active {
+  background: rgba(59, 130, 246, 0.18); 
+  border: 1px solid rgba(59, 130, 246, 0.35);
+  color: #ffffff;
+}
