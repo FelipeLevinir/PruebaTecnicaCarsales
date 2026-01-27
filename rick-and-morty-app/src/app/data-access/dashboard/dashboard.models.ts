@@ -6,4 +6,6 @@ export type DashboardDto = {
   totalCharacters: number;
   latestEpisodes: EpisodeListItemDto[];
   featuredCharacters: CharacterListItemDto[];
+  backendStatus: 'OK' | 'ERROR';
+  generatedAtIso: string;
 };
