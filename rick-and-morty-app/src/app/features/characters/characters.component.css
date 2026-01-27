@@ -1,0 +1,80 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.title { margin: 0; font-size: 2rem; }
+.subtitle { margin: 0.25rem 0 0 0; color: #6b7280; }
+
+.toolbar {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+
+.search input { width: 280px; max-width: 100%; }
+
+.filter { min-width: 180px; }
+
+.meta { display: flex; gap: 0.5rem; margin-left: auto; flex-wrap: wrap; }
+
+.avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  object-fit: cover;
+  border: 1px solid #e5e7eb;
+}
+
+.name { font-weight: 700; }
+
+.empty {
+  text-align: center;
+  padding: 1rem;
+  color: #6b7280;
+}
+
+.dialog-loading {
+  padding: 1rem;
+  color: #6b7280;
+}
+
+.dialog-body {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 1rem;
+}
+
+@media (max-width: 720px) {
+  .dialog-body { grid-template-columns: 1fr; }
+}
+
+.dialog-image {
+  width: 100%;
+  border-radius: 16px;
+  border: 1px solid #e5e7eb;
+  object-fit: cover;
+}
+
+.dialog-title {
+  font-size: 1.4rem;
+  font-weight: 800;
+  margin-bottom: 0.5rem;
+}
+
+.dialog-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.35rem 0;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.label {
+  color: #6b7280;
+  font-weight: 600;
+}
