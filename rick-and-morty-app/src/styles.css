@@ -7,3 +7,10 @@ html, body {
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
+.rm-dialog .p-dialog-content {
+  background: #ffffff;
+}
+
+.p-dialog-mask {
+  backdrop-filter: blur(2px);
+}
