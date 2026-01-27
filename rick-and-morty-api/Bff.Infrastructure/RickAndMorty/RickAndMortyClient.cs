@@ -23,4 +23,25 @@ public sealed class RickAndMortyClient(HttpClient httpClient) : IRickAndMortyCli
         var data = await response.Content.ReadFromJsonAsync<RickAndMortyEpisode>(cancellationToken: cancellationToken);
         return data ?? throw new InvalidOperationException("Respuesta vacía desde RickAndMorty API.");
     }
+
+    public async Task<RickAndMortyCharacterPage> GetCharactersAsync(int page, CancellationToken cancellationToken)
+    {
+        if (page <= 0) page = 1;
+
+        var response = await httpClient.GetAsync($"/api/character?page={page}", cancellationToken);
+        response.EnsureSuccessStatusCode();
+
+        var data = await response.Content.ReadFromJsonAsync<RickAndMortyCharacterPage>(cancellationToken: cancellationToken);
+        return data ?? throw new InvalidOperationException("Respuesta vacía desde RickAndMorty API.");
+    }
+
+    public async Task<RickAndMortyCharacter> GetCharacterByIdAsync(int id, CancellationToken cancellationToken)
+    {
+        var response = await httpClient.GetAsync($"/api/character/{id}", cancellationToken);
+        response.EnsureSuccessStatusCode();
+
+        var data = await response.Content.ReadFromJsonAsync<RickAndMortyCharacter>(cancellationToken: cancellationToken);
+        return data ?? throw new InvalidOperationException("Respuesta vacía desde RickAndMorty API.");
+    }
+
 }
