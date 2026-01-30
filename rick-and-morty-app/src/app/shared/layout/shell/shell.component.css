@@ -1,15 +1,83 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   SHELL - SPACE STATION LAYOUT
+   ═══════════════════════════════════════════════════════════════════════════ */
+
 .shell {
   display: flex;
   min-height: 100vh;
+  background: var(--bg-void);
 }
 
+/* ─────────────────────────────────────────────────────────────────────────────
+   MAIN CONTENT AREA
+   ───────────────────────────────────────────────────────────────────────────── */
 .content {
   flex: 1;
-  padding: 2rem;
-  background: #f5f7fb;
+  padding: 2rem 2.5rem;
+  background: 
+    radial-gradient(ellipse 100% 100% at 80% 0%, rgba(57, 255, 20, 0.02) 0%, transparent 50%),
+    radial-gradient(ellipse 80% 80% at 0% 100%, rgba(0, 245, 255, 0.02) 0%, transparent 50%),
+    var(--bg-space);
+  position: relative;
+  overflow-x: hidden;
 }
 
+/* Subtle grid pattern overlay */
+.content::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: 
+    linear-gradient(rgba(57, 255, 20, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(57, 255, 20, 0.02) 1px, transparent 1px);
+  background-size: 60px 60px;
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+/* Top glow line */
+.content::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, 
+    transparent, 
+    rgba(57, 255, 20, 0.3) 20%,
+    rgba(0, 245, 255, 0.3) 50%,
+    rgba(168, 85, 247, 0.3) 80%,
+    transparent
+  );
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   PAGE CONTAINER
+   ───────────────────────────────────────────────────────────────────────────── */
 .page {
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
+  position: relative;
+  z-index: 1;
+  animation: fadeInUp 0.5s ease-out;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   RESPONSIVE ADJUSTMENTS
+   ───────────────────────────────────────────────────────────────────────────── */
+@media (max-width: 1024px) {
+  .content {
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .shell {
+    flex-direction: column;
+  }
+  
+  .content {
+    padding: 1rem;
+  }
 }
