@@ -1,53 +1,240 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   EPISODES - DATA TERMINAL INTERFACE
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   HEADER SECTION
+   ───────────────────────────────────────────────────────────────────────────── */
 .header {
   display: flex;
   justify-content: space-between;
-  gap: 1rem;
-  margin-bottom: 1rem;
+  align-items: flex-start;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+  animation: fadeInUp 0.4s ease-out;
 }
 
 .title {
   margin: 0;
-  font-size: 2rem;
-  letter-spacing: -0.2px;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 2.5rem;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  background: linear-gradient(135deg, 
+    var(--text-primary) 0%, 
+    var(--dimension-cyan) 50%,
+    var(--space-purple) 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .subtitle {
-  margin: 0.25rem 0 0 0;
-  color: #6b7280;
+  margin: 0.5rem 0 0 0;
+  color: var(--text-muted);
+  font-size: 1rem;
 }
 
+/* ─────────────────────────────────────────────────────────────────────────────
+   TOOLBAR
+   ───────────────────────────────────────────────────────────────────────────── */
 .toolbar {
   display: flex;
   justify-content: space-between;
-  gap: 1rem;
   align-items: center;
-  margin-bottom: 1rem;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
   flex-wrap: wrap;
+  padding: 1rem 1.25rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-xl);
+  backdrop-filter: blur(16px);
+  animation: fadeInUp 0.5s ease-out backwards;
+  animation-delay: 0.1s;
+}
+
+/* Toolbar glow accent */
+.toolbar::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 2rem;
+  right: 2rem;
+  height: 1px;
+  background: linear-gradient(90deg, 
+    transparent,
+    var(--dimension-cyan) 30%,
+    var(--space-purple) 70%,
+    transparent
+  );
+  opacity: 0.3;
+  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+}
+
+.search {
+  position: relative;
 }
 
 .search input {
-  width: 340px;
+  width: 360px;
   max-width: 100%;
+  padding-left: 2.75rem;
+  height: 44px;
+  font-size: 0.95rem;
+}
+
+.search i {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-muted);
+  font-size: 1rem;
+  transition: color var(--transition-fast);
+  z-index: 1;
+}
+
+.search:focus-within i {
+  color: var(--dimension-cyan);
+  filter: drop-shadow(0 0 6px var(--dimension-cyan-glow));
 }
 
 .meta {
   display: flex;
-  gap: 0.5rem;
+  gap: 0.75rem;
   flex-wrap: wrap;
 }
 
-.pill {
-  display: inline-block;
-  padding: 0.2rem 0.55rem;
-  border-radius: 999px;
-  background: rgba(59, 130, 246, 0.10);
-  color: #1d4ed8;
-  font-weight: 600;
-  font-size: 0.85rem;
+/* ─────────────────────────────────────────────────────────────────────────────
+   DATA TABLE CONTAINER
+   ───────────────────────────────────────────────────────────────────────────── */
+.p-datatable {
+  animation: fadeInUp 0.6s ease-out backwards;
+  animation-delay: 0.2s;
 }
 
+/* Table wrapper styling */
+:host ::ng-deep .p-datatable .p-datatable-wrapper {
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-card);
+}
+
+/* Header row styling */
+:host ::ng-deep .p-datatable .p-datatable-thead > tr > th {
+  background: linear-gradient(180deg, 
+    rgba(0, 245, 255, 0.05) 0%, 
+    transparent 100%
+  );
+}
+
+:host ::ng-deep .p-datatable .p-datatable-thead > tr > th:first-child {
+  border-radius: var(--radius-xl) 0 0 0;
+}
+
+:host ::ng-deep .p-datatable .p-datatable-thead > tr > th:last-child {
+  border-radius: 0 var(--radius-xl) 0 0;
+}
+
+/* Body rows */
+:host ::ng-deep .p-datatable .p-datatable-tbody > tr {
+  transition: all var(--transition-fast);
+}
+
+:host ::ng-deep .p-datatable .p-datatable-tbody > tr:hover {
+  background: linear-gradient(90deg, 
+    var(--bg-card-hover) 0%, 
+    rgba(0, 245, 255, 0.03) 100%
+  );
+}
+
+:host ::ng-deep .p-datatable .p-datatable-tbody > tr:last-child > td:first-child {
+  border-radius: 0 0 0 var(--radius-xl);
+}
+
+:host ::ng-deep .p-datatable .p-datatable-tbody > tr:last-child > td:last-child {
+  border-radius: 0 0 var(--radius-xl) 0;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   EPISODE CODE PILL
+   ───────────────────────────────────────────────────────────────────────────── */
+.pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.35rem 0.85rem;
+  border-radius: 999px;
+  background: 
+    linear-gradient(135deg, 
+      rgba(168, 85, 247, 0.15) 0%, 
+      rgba(236, 72, 153, 0.10) 100%
+    );
+  color: var(--space-purple);
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 700;
+  font-size: 0.8rem;
+  letter-spacing: 1px;
+  border: 1px solid rgba(168, 85, 247, 0.25);
+  text-shadow: 0 0 10px var(--space-purple-glow);
+  transition: all var(--transition-fast);
+}
+
+tr:hover .pill {
+  background: 
+    linear-gradient(135deg, 
+      rgba(168, 85, 247, 0.25) 0%, 
+      rgba(236, 72, 153, 0.15) 100%
+    );
+  box-shadow: 0 0 15px var(--space-purple-glow);
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   EMPTY STATE
+   ───────────────────────────────────────────────────────────────────────────── */
 .empty {
   text-align: center;
-  padding: 1rem;
-  color: #6b7280;
+  padding: 3rem 2rem;
+  color: var(--text-muted);
+  font-size: 1rem;
+  background: linear-gradient(180deg, 
+    rgba(168, 85, 247, 0.03) 0%, 
+    transparent 100%
+  );
+}
+
+.empty::before {
+  content: '📺';
+  display: block;
+  font-size: 2.5rem;
+  margin-bottom: 0.75rem;
+  opacity: 0.5;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   RESPONSIVE ADJUSTMENTS
+   ───────────────────────────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .search input {
+    width: 100%;
+  }
+  
+  .meta {
+    justify-content: center;
+  }
 }
