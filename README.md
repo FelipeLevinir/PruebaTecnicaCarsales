@@ -75,7 +75,7 @@ En otra consola, desde la raíz del repositorio:
 ```
 cd rick-and-morty-app
 npm install
-ng serve
+npm start
 ```
 La aplicación quedará disponible en:
 http://localhost:4200
