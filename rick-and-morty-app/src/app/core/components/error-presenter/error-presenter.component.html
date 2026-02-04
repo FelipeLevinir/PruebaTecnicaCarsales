@@ -1,0 +1,13 @@
+<div class="toast-container">
+  @for (error of errors(); track error.id) {
+    <div class="toast toast-{{ error.type }}" [@slideIn]>
+      <div class="toast-icon">{{ getIcon(error.type) }}</div>
+      <div class="toast-content">
+        <p class="toast-message">{{ error.message }}</p>
+      </div>
+      <button class="toast-close" (click)="removeError(error.id)" aria-label="Cerrar">
+        ×
+      </button>
+    </div>
+  }
+</div>

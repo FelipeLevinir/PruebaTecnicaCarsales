@@ -1,16 +1,9 @@
-/* ═══════════════════════════════════════════════════════════════════════════
-   SHELL - SPACE STATION LAYOUT
-   ═══════════════════════════════════════════════════════════════════════════ */
-
 .shell {
   display: flex;
   min-height: 100vh;
   background: var(--bg-void);
 }
 
-/* ─────────────────────────────────────────────────────────────────────────────
-   MAIN CONTENT AREA
-   ───────────────────────────────────────────────────────────────────────────── */
 .content {
   flex: 1;
   padding: 2rem 2.5rem;
@@ -22,7 +15,6 @@
   overflow-x: hidden;
 }
 
-/* Subtle grid pattern overlay */
 .content::before {
   content: '';
   position: absolute;
@@ -35,7 +27,6 @@
   opacity: 0.5;
 }
 
-/* Top glow line */
 .content::after {
   content: '';
   position: absolute;
@@ -52,9 +43,6 @@
   );
 }
 
-/* ─────────────────────────────────────────────────────────────────────────────
-   PAGE CONTAINER
-   ───────────────────────────────────────────────────────────────────────────── */
 .page {
   max-width: 1400px;
   margin: 0 auto;
@@ -63,9 +51,17 @@
   animation: fadeInUp 0.5s ease-out;
 }
 
-/* ─────────────────────────────────────────────────────────────────────────────
-   RESPONSIVE ADJUSTMENTS
-   ───────────────────────────────────────────────────────────────────────────── */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 @media (max-width: 1024px) {
   .content {
     padding: 1.5rem;

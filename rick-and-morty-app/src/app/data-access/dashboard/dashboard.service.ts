@@ -2,8 +2,8 @@ import { Injectable, inject } from '@angular/core';
 import { EpisodesService } from '../episodes/episodes.service';
 import { CharactersService } from '../characters/characters.service';
 import { DashboardDto } from './dashboard.models';
-import { Observable, forkJoin, of } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { Observable, forkJoin } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class DashboardService {
@@ -22,17 +22,7 @@ export class DashboardService {
         featuredCharacters: characters.items.slice(0, 6),
         backendStatus: 'OK',
         generatedAtIso: new Date().toISOString(),
-      })),
-      catchError(() =>
-        of<DashboardDto>({
-          totalEpisodes: 0,
-          totalCharacters: 0,
-          latestEpisodes: [],
-          featuredCharacters: [],
-          backendStatus: 'ERROR',
-          generatedAtIso: new Date().toISOString(),
-        })
-      )
+      }))
     );
   }
 }

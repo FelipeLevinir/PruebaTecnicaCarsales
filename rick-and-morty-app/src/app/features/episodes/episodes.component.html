@@ -1,63 +1,71 @@
 <div class="header">
   <div>
     <h1 class="title">Episodios</h1>
-    <p class="subtitle">Listado con PrimeTable, búsqueda y paginación.</p>
+    <p class="subtitle">Listado con tabla custom, búsqueda y paginación.</p>
   </div>
 
-  <button pButton type="button" label="Refrescar" icon="pi pi-refresh" (click)="refresh()"></button>
+  <app-button label="Refrescar" icon="pi pi-refresh" (click)="refresh()"></app-button>
 </div>
 
 <div class="toolbar">
-  <span class="p-input-icon-left search">
-    <i class="pi pi-search"></i>
-    <input
-      pInputText
+  <span class="search">
+    <app-input
       placeholder="Buscar por nombre (en esta página)..."
-      (input)="onSearch($event)"
-    />
+      icon="pi pi-search"
+      (inputChange)="onSearch($event)"
+    ></app-input>
   </span>
 
   <div class="meta">
-    <p-tag [value]="'Total: ' + totalCount()" severity="info"></p-tag>
-    <p-tag [value]="'Página: ' + page() + ' / ' + totalPages()" severity="success"></p-tag>
+    <app-tag [value]="'Total: ' + totalCount()" severity="info"></app-tag>
+    <app-tag [value]="'Página: ' + page() + ' / ' + totalPages()" severity="success"></app-tag>
   </div>
 </div>
 
-<p-table
-  [value]="filteredItems()"
-  [loading]="loading()"
-  [paginator]="true"
-  [rows]="rows()"
-  [totalRecords]="totalCount()"
-  [lazy]="true"
-  (onPage)="onPageChange($event)"
-  [rowsPerPageOptions]="[10, 20, 50]"
-  styleClass="p-datatable-sm"
-  [tableStyle]="{ 'min-width': '900px' }"
->
-  <ng-template pTemplate="header">
-    <tr>
-      <th style="width: 80px;">Id</th>
-      <th>Nombre</th>
-      <th style="width: 120px;">Código</th>
-      <th style="width: 160px;">Air Date</th>
-      <th style="width: 130px;">Personajes</th>
-    </tr>
-  </ng-template>
+@defer (on viewport) {
+  <app-table
+    [value]="filteredItems()"
+    [loading]="loading()"
+    [paginator]="true"
+    [rows]="rows()"
+    [totalRecords]="totalCount()"
+    [lazy]="true"
+    (page)="onPageChange($event)"
+    [rowsPerPageOptions]="[10, 20, 50]"
+    styleClass="table-sm"
+    [tableStyle]="{ 'min-width': '900px' }">
+    
+    <ng-template #header>
+      <tr>
+        <th style="width: 80px;">Id</th>
+        <th>Nombre</th>
+        <th style="width: 120px;">Código</th>
+        <th style="width: 160px;">Air Date</th>
+        <th style="width: 130px;">Personajes</th>
+      </tr>
+    </ng-template>
 
-  <ng-template pTemplate="body" let-item>
-    <tr>
-      <td>{{ item.id }}</td>
-      <td>{{ item.name }}</td>
-      <td><span class="pill">{{ item.code }}</span></td>
-      <td>{{ item.airDate }}</td>
-      <td>{{ item.characterCount }}</td>
-    </tr>
-  </ng-template>
+    <ng-template #body let-item>
+      <tr>
+        <td>{{ item.id }}</td>
+        <td>{{ item.name }}</td>
+        <td><span class="pill">{{ item.code }}</span></td>
+        <td>{{ item.airDate }}</td>
+        <td>{{ item.characterCount }}</td>
+      </tr>
+    </ng-template>
 
-  <ng-template pTemplate="emptymessage">
-    <tr>
-      <td colspan="5" class="empty">No hay episodios para mostrar.</td>
-    </tr>
-  </ng-template>
-</p-table>
+    <ng-template #emptymessage>
+      <tr>
+        <td colspan="5" class="empty">No hay episodios para mostrar.</td>
+      </tr>
+    </ng-template>
+  </app-table>
+} @placeholder {
+  <div class="table-skeleton"></div>
+} @loading (minimum 500ms) {
+  <div class="table-loading">
+    <div class="spinner"></div>
+    <p>Cargando episodios...</p>
+  </div>
+}

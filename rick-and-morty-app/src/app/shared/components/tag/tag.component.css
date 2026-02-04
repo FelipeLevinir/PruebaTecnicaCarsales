@@ -1,0 +1,89 @@
+.tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.4rem 0.85rem;
+  border-radius: 999px;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  border: 1px solid transparent;
+  transition: all var(--transition-fast);
+}
+
+/* Success (Green) */
+.tag-success {
+  background: linear-gradient(135deg, 
+    rgba(16, 185, 129, 0.15) 0%, 
+    rgba(5, 150, 105, 0.1) 100%
+  );
+  color: #10b981;
+  border-color: rgba(16, 185, 129, 0.3);
+  text-shadow: 0 0 10px rgba(16, 185, 129, 0.3);
+}
+
+.tag-success:hover {
+  background: linear-gradient(135deg, 
+    rgba(16, 185, 129, 0.25) 0%, 
+    rgba(5, 150, 105, 0.15) 100%
+  );
+  box-shadow: 0 0 15px rgba(16, 185, 129, 0.2);
+}
+
+/* Info (Cyan) */
+.tag-info {
+  background: linear-gradient(135deg, 
+    rgba(0, 245, 255, 0.12) 0%, 
+    rgba(14, 165, 233, 0.08) 100%
+  );
+  color: var(--dimension-cyan);
+  border-color: rgba(0, 245, 255, 0.2);
+  text-shadow: 0 0 10px var(--dimension-cyan-glow);
+}
+
+.tag-info:hover {
+  background: linear-gradient(135deg, 
+    rgba(0, 245, 255, 0.2) 0%, 
+    rgba(14, 165, 233, 0.15) 100%
+  );
+  box-shadow: 0 0 15px var(--dimension-cyan-glow);
+}
+
+/* Warning (Yellow) */
+.tag-warning {
+  background: linear-gradient(135deg, 
+    rgba(245, 158, 11, 0.15) 0%, 
+    rgba(217, 119, 6, 0.1) 100%
+  );
+  color: #f59e0b;
+  border-color: rgba(245, 158, 11, 0.3);
+  text-shadow: 0 0 10px rgba(245, 158, 11, 0.3);
+}
+
+.tag-warning:hover {
+  background: linear-gradient(135deg, 
+    rgba(245, 158, 11, 0.25) 0%, 
+    rgba(217, 119, 6, 0.15) 100%
+  );
+  box-shadow: 0 0 15px rgba(245, 158, 11, 0.2);
+}
+
+/* Danger (Red) */
+.tag-danger {
+  background: linear-gradient(135deg, 
+    rgba(239, 68, 68, 0.15) 0%, 
+    rgba(220, 38, 38, 0.1) 100%
+  );
+  color: #ef4444;
+  border-color: rgba(239, 68, 68, 0.3);
+  text-shadow: 0 0 10px rgba(239, 68, 68, 0.3);
+}
+
+.tag-danger:hover {
+  background: linear-gradient(135deg, 
+    rgba(239, 68, 68, 0.25) 0%, 
+    rgba(220, 38, 38, 0.15) 100%
+  );
+  box-shadow: 0 0 15px rgba(239, 68, 68, 0.2);
+}

@@ -1,0 +1,33 @@
+.card {
+  position: relative;
+  border-radius: var(--radius-xl);
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  backdrop-filter: blur(16px);
+  overflow: hidden;
+  transition: all var(--transition-smooth);
+}
+
+.card-title {
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid var(--border-subtle);
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: var(--text-primary);
+}
+
+.card-title:empty {
+  display: none;
+}
+
+.card-body {
+  padding: 1.5rem;
+}
+
+.card.kpi-card,
+.card.panel-card {
+
+}

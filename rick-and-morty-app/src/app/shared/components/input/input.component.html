@@ -1,0 +1,15 @@
+<div class="input-wrapper" [class.has-icon]="icon">
+  @if (icon) {
+    <i [class]="icon" class="input-icon"></i>
+  }
+  
+  <input
+    [type]="type"
+    [placeholder]="placeholder"
+    [disabled]="disabled"
+    [value]="value"
+    (input)="onInput($event)"
+    (blur)="onBlur()"
+    class="input"
+  />
+</div>

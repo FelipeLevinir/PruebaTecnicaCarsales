@@ -3,20 +3,15 @@ import { CommonModule } from '@angular/common';
 import { EpisodesService } from '../../data-access/episodes/episodes.service';
 import { EpisodeListItemDto, EpisodePageDto } from '../../data-access/episodes/episodes.models';
 
-import { TableModule } from 'primeng/table';
-import { InputTextModule } from 'primeng/inputtext';
-import { ButtonModule } from 'primeng/button';
-import { TagModule } from 'primeng/tag';
-
-type PrimeTablePageEvent = {
-  first: number; // índice inicial
-  rows: number;  // filas por página
-};
+import { TableComponent, PageEvent } from '../../shared/components/table/table.component';
+import { InputComponent } from '../../shared/components/input/input.component';
+import { ButtonComponent } from '../../shared/components/button/button.component';
+import { TagComponent } from '../../shared/components/tag/tag.component';
 
 @Component({
   selector: 'app-episodes',
   standalone: true,
-  imports: [CommonModule, TableModule, InputTextModule, ButtonModule, TagModule],
+  imports: [CommonModule, TableComponent, InputComponent, ButtonComponent, TagComponent],
   templateUrl: './episodes.component.html',
   styleUrl: './episodes.component.css',
 })
@@ -50,19 +45,15 @@ export class EpisodesComponent {
 
     this.episodesService.getEpisodes(page).subscribe({
       next: (data) => this.pageData.set(data),
-      error: () => {}, 
       complete: () => this.loading.set(false),
     });
   }
 
-  onSearch(event: Event): void {
-    const target = event.target;
-    if (target instanceof HTMLInputElement) {
-      this.searchText.set(target.value);
-    }
+  onSearch(value: string): void {
+    this.searchText.set(value);
   }
 
-  onPageChange(event: PrimeTablePageEvent): void {
+  onPageChange(event: PageEvent): void {
     const rows = event.rows;
     const first = event.first;
 

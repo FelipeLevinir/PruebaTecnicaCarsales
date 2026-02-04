@@ -6,16 +6,15 @@ import { DashboardDto } from '../../data-access/dashboard/dashboard.models';
 import { EpisodeListItemDto } from '../../data-access/episodes/episodes.models';
 import { CharacterListItemDto } from '../../data-access/characters/characters.models';
 
-import { CardModule } from 'primeng/card';
-import { ButtonModule } from 'primeng/button';
-import { TagModule } from 'primeng/tag';
-import { TableModule } from 'primeng/table';
-import { AvatarModule } from 'primeng/avatar';
+import { CardComponent } from '../../shared/components/card/card.component';
+import { ButtonComponent } from '../../shared/components/button/button.component';
+import { TagComponent } from '../../shared/components/tag/tag.component';
+import { TableComponent } from '../../shared/components/table/table.component';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, CardModule, ButtonModule, TagModule, TableModule, AvatarModule],
+  imports: [CommonModule, CardComponent, ButtonComponent, TagComponent, TableComponent],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css',
 })
@@ -41,7 +40,6 @@ export class DashboardComponent {
     this.loading.set(true);
     this.dashboardService.getDashboard().subscribe({
       next: (d) => this.data.set(d),
-      error: () => {},
       complete: () => this.loading.set(false),
     });
   }

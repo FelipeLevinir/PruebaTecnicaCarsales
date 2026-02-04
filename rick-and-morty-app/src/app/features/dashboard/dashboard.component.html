@@ -5,108 +5,142 @@
   </div>
 
   <div class="header-actions">
-    <p-tag
+    <app-tag
       [value]="backendStatus() === 'OK' ? 'Backend OK' : 'Backend ERROR'"
       [severity]="statusSeverity()"
-    ></p-tag>
+    ></app-tag>
 
-    <button pButton type="button" label="Refrescar" icon="pi pi-refresh" (click)="refresh()"></button>
+    <app-button label="Refrescar" icon="pi pi-refresh" (click)="refresh()"></app-button>
   </div>
 </div>
 
-<section class="kpi-grid">
-  <p-card styleClass="kpi-card">
-    <ng-template pTemplate="title">
-      <div class="kpi-title">
-        <span>Episodios</span>
-        <i class="pi pi-video"></i>
-      </div>
-    </ng-template>
-
-    <div class="kpi-value">{{ totalEpisodes() }}</div>
-    <div class="kpi-hint">Total disponibles</div>
-  </p-card>
-
-  <p-card styleClass="kpi-card">
-    <ng-template pTemplate="title">
-      <div class="kpi-title">
-        <span>Personajes</span>
-        <i class="pi pi-users"></i>
-      </div>
-    </ng-template>
-
-    <div class="kpi-value">{{ totalCharacters() }}</div>
-    <div class="kpi-hint">Total disponibles</div>
-  </p-card>
-
-  <p-card styleClass="kpi-card">
-    <ng-template pTemplate="title">
-      <div class="kpi-title">
-        <span>Generado</span>
-        <i class="pi pi-clock"></i>
-      </div>
-    </ng-template>
-
-    <div class="kpi-value small">{{ generatedAt() ? (generatedAt() | date: 'short') : '—' }}</div>
-    <div class="kpi-hint">Hora local</div>
-  </p-card>
-</section>
-<section class="panel-stack">
-  <!-- Últimos episodios -->
-  <p-card styleClass="panel-card">
-    <ng-template pTemplate="title">Últimos episodios</ng-template>
-
-    <p-table
-      [value]="latestEpisodes()"
-      [loading]="loading()"
-      styleClass="p-datatable-sm"
-      [tableStyle]="{ 'min-width': '650px' }"
-    >
-      <ng-template pTemplate="header">
-        <tr>
-          <th style="width: 70px;">Id</th>
-          <th>Nombre</th>
-          <th style="width: 120px;">Código</th>
-          <th style="width: 160px;">Air Date</th>
-        </tr>
-      </ng-template>
-
-      <ng-template pTemplate="body" let-item>
-        <tr>
-          <td>{{ item.id }}</td>
-          <td>{{ item.name }}</td>
-          <td><span class="pill">{{ item.code }}</span></td>
-          <td>{{ item.airDate }}</td>
-        </tr>
-      </ng-template>
-
-      <ng-template pTemplate="emptymessage">
-        <tr>
-          <td colspan="4" class="empty">No hay episodios para mostrar.</td>
-        </tr>
-      </ng-template>
-    </p-table>
-  </p-card>
-
-  <!-- Personajes destacados -->
-  <p-card styleClass="panel-card">
-    <ng-template pTemplate="title">Personajes destacados</ng-template>
-
-    <div class="characters-grid">
-      <div class="character" *ngFor="let c of featuredCharacters()">
-        <img [src]="c.image" [alt]="c.name" class="character-image" />
-
-        <div class="character-meta">
-          <div class="character-name">{{ c.name }}</div>
-          <div class="character-sub">
-            {{ c.species }} · {{ c.status }}
-          </div>
+@defer (on viewport) {
+  <section class="kpi-grid">
+    <app-card styleClass="kpi-card">
+      <div title>
+        <div class="kpi-title">
+          <span>Episodios</span>
+          <i class="pi pi-video"></i>
         </div>
       </div>
 
-      <div *ngIf="featuredCharacters().length === 0" class="empty">
-        No hay personajes para mostrar.
+      <div class="kpi-value">{{ totalEpisodes() }}</div>
+      <div class="kpi-hint">Total disponibles</div>
+    </app-card>
+
+    <app-card styleClass="kpi-card">
+      <div title>
+        <div class="kpi-title">
+          <span>Personajes</span>
+          <i class="pi pi-users"></i>
+        </div>
       </div>
+
+      <div class="kpi-value">{{ totalCharacters() }}</div>
+      <div class="kpi-hint">Total disponibles</div>
+    </app-card>
+
+    <app-card styleClass="kpi-card">
+      <div title>
+        <div class="kpi-title">
+          <span>Generado</span>
+          <i class="pi pi-clock"></i>
+        </div>
+      </div>
+
+      <div class="kpi-value small">{{ generatedAt() ? (generatedAt() | date: 'short') : '—' }}</div>
+      <div class="kpi-hint">Hora local</div>
+    </app-card>
+  </section>
+} @placeholder {
+  <section class="kpi-grid">
+    <div class="kpi-skeleton"></div>
+    <div class="kpi-skeleton"></div>
+    <div class="kpi-skeleton"></div>
+  </section>
+} @loading (minimum 500ms) {
+  <section class="kpi-grid">
+    <div class="kpi-loading">
+      <div class="spinner"></div>
+      <p>Cargando KPIs...</p>
     </div>
-  </p-card>
-</section>
+  </section>
+}
+
+@defer (on viewport) {
+  <section class="panel-stack">
+    <!-- Últimos episodios -->
+    <app-card styleClass="panel-card">
+      <div title>Últimos episodios</div>
+
+      <app-table
+        [value]="latestEpisodes()"
+        [loading]="loading()"
+        styleClass="table-sm"
+        [tableStyle]="{ 'min-width': '650px' }">
+        
+        <ng-template #header>
+          <tr>
+            <th style="width: 70px;">Id</th>
+            <th>Nombre</th>
+            <th style="width: 120px;">Código</th>
+            <th style="width: 160px;">Air Date</th>
+          </tr>
+        </ng-template>
+
+        <ng-template #body let-item>
+          <tr>
+            <td>{{ item.id }}</td>
+            <td>{{ item.name }}</td>
+            <td><span class="pill">{{ item.code }}</span></td>
+            <td>{{ item.airDate }}</td>
+          </tr>
+        </ng-template>
+
+        <ng-template #emptymessage>
+          <tr>
+            <td colspan="4" class="empty">No hay episodios para mostrar.</td>
+          </tr>
+        </ng-template>
+      </app-table>
+    </app-card>
+
+    <!-- Personajes destacados -->
+    <app-card styleClass="panel-card">
+      <div title>Personajes destacados</div>
+
+      <div class="characters-grid">
+        @for (c of featuredCharacters(); track c.id) {
+          <div class="character">
+            <img [src]="c.image" [alt]="c.name" class="character-image" />
+
+            <div class="character-meta">
+              <div class="character-name">{{ c.name }}</div>
+              <div class="character-sub">
+                {{ c.species }} · {{ c.status }}
+              </div>
+            </div>
+          </div>
+        }
+
+        @if (featuredCharacters().length === 0) {
+          <div class="empty">
+            No hay personajes para mostrar.
+          </div>
+        }
+      </div>
+    </app-card>
+  </section>
+} @placeholder {
+  <section class="panel-stack">
+    <div class="panel-skeleton"></div>
+    <div class="panel-skeleton"></div>
+  </section>
+} @loading (minimum 500ms) {
+  <section class="panel-stack">
+    <div class="panel-loading">
+      <div class="spinner"></div>
+      <p>Cargando contenido...</p>
+    </div>
+  </section>
+}

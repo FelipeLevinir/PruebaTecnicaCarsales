@@ -1,0 +1,138 @@
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1.25rem;
+  border: 1px solid transparent;
+  border-radius: var(--radius-md);
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all var(--transition-smooth);
+  position: relative;
+  overflow: hidden;
+  outline: none;
+}
+
+.btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.1),
+    transparent
+  );
+  transform: translateX(-100%);
+  transition: transform 0.6s ease;
+}
+
+.btn:hover::before {
+  transform: translateX(100%);
+}
+
+/* Primary variant (Portal Green) */
+.btn-primary {
+  background: linear-gradient(135deg, 
+    var(--portal-green-dim) 0%, 
+    var(--portal-green) 100%
+  );
+  border-color: var(--portal-green);
+  color: var(--bg-void);
+  box-shadow: 0 4px 12px rgba(57, 255, 20, 0.2);
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: var(--portal-green);
+  box-shadow: 0 6px 20px var(--portal-green-glow);
+  transform: translateY(-2px);
+}
+
+.btn-primary:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(57, 255, 20, 0.3);
+}
+
+/* Secondary variant (Cyan) */
+.btn-secondary {
+  background: linear-gradient(135deg, 
+    rgba(0, 245, 255, 0.1) 0%, 
+    rgba(0, 245, 255, 0.05) 100%
+  );
+  border-color: var(--dimension-cyan);
+  color: var(--dimension-cyan);
+  box-shadow: 0 4px 12px rgba(0, 245, 255, 0.1);
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background: linear-gradient(135deg, 
+    rgba(0, 245, 255, 0.2) 0%, 
+    rgba(0, 245, 255, 0.1) 100%
+  );
+  box-shadow: 0 6px 20px var(--dimension-cyan-glow);
+  transform: translateY(-2px);
+}
+
+/* Danger variant (Red) */
+.btn-danger {
+  background: linear-gradient(135deg, 
+    rgba(239, 68, 68, 0.8) 0%, 
+    rgba(220, 38, 38, 0.9) 100%
+  );
+  border-color: #ef4444;
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+}
+
+.btn-danger:hover:not(:disabled) {
+  background: #ef4444;
+  box-shadow: 0 6px 20px rgba(239, 68, 68, 0.5);
+  transform: translateY(-2px);
+}
+
+/* Disabled state */
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* Loading state */
+.btn-loading {
+  pointer-events: none;
+}
+
+.btn-spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid currentColor;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Icon */
+.btn i {
+  font-size: 1rem;
+  line-height: 1;
+}
+
+/* Label */
+.btn-label {
+  line-height: 1;
+}
+
+/* Focus state */
+.btn:focus-visible {
+  outline: 2px solid var(--portal-green);
+  outline-offset: 2px;
+}

@@ -4,119 +4,132 @@
         <p class="subtitle">Listado con filtros, búsqueda y detalle por Id.</p>
     </div>
 
-    <button pButton type="button" label="Refrescar" icon="pi pi-refresh" (click)="refresh()"></button>
+    <app-button label="Refrescar" icon="pi pi-refresh" (click)="refresh()"></app-button>
 </div>
 
 <div class="toolbar">
-    <span class="p-input-icon-left search">
-        <i class="pi pi-search"></i>
-    <input pInputText placeholder="Buscar por nombre..." (input)="onSearch($event)" />
+    <span class="search">
+        <app-input 
+            placeholder="Buscar por nombre..." 
+            icon="pi pi-search"
+            (inputChange)="onSearch($event)">
+        </app-input>
     </span>
 
-    <p-dropdown
+    <app-dropdown
         [options]="statusOptions()"
         optionLabel="label"
         optionValue="value"
-        [ngModel]="statusFilter()"
-        (onChange)="statusFilter.set($event.value)"
+        [(ngModel)]="statusFilter"
         placeholder="Estado"
         styleClass="filter">
-    </p-dropdown>
+    </app-dropdown>
 
-    <p-dropdown
+    <app-dropdown
         [options]="speciesOptions()"
         optionLabel="label"
         optionValue="value"
-        [ngModel]="speciesFilter()"
-        (onChange)="speciesFilter.set($event.value)"
+        [(ngModel)]="speciesFilter"
         placeholder="Especie"
         styleClass="filter">
-    </p-dropdown>
+    </app-dropdown>
 
     <div class="meta">
-        <p-tag [value]="'Total: ' + totalCount()" severity="info"></p-tag>
-        <p-tag [value]="'Página: ' + page() + ' / ' + totalPages()" severity="success"></p-tag>
+        <app-tag [value]="'Total: ' + totalCount()" severity="info"></app-tag>
+        <app-tag [value]="'Página: ' + page() + ' / ' + totalPages()" severity="success"></app-tag>
     </div>
 </div>
 
-<p-table
-    [value]="filteredItems()"
-    [loading]="loading()"
-    [paginator]="true"
-    [rows]="rows()"
-    [totalRecords]="totalCount()"
-    [lazy]="true"
-    (onPage)="onPageChange($event)"
-    styleClass="p-datatable-sm"
-    [tableStyle]="{ 'min-width': '900px' }">
-    <ng-template pTemplate="header">
-        <tr>
-            <th style="width: 90px;">Avatar</th>
-            <th>Nombre</th>
-            <th style="width: 120px;">Estado</th>
-            <th style="width: 180px;">Especie</th>
-            <th style="width: 140px;">Género</th>
-            <th style="width: 140px;">Acción</th>
-        </tr>
-    </ng-template>
+@defer (on viewport) {
+    <app-table
+        [value]="filteredItems()"
+        [loading]="loading()"
+        [paginator]="true"
+        [rows]="rows()"
+        [totalRecords]="totalCount()"
+        [lazy]="true"
+        (page)="onPageChange($event)"
+        styleClass="table-sm"
+        [tableStyle]="{ 'min-width': '900px' }">
+        
+        <ng-template #header>
+            <tr>
+                <th style="width: 90px;">Avatar</th>
+                <th>Nombre</th>
+                <th style="width: 120px;">Estado</th>
+                <th style="width: 180px;">Especie</th>
+                <th style="width: 140px;">Género</th>
+                <th style="width: 140px;">Acción</th>
+            </tr>
+        </ng-template>
 
-    <ng-template pTemplate="body" let-item>
-        <tr>
-            <td>
-                <img [src]="item.image" [alt]="item.name" class="avatar" />
-            </td>
-            <td>
-                <div class="name">{{ item.name }}</div>
-            </td>
-            <td>
-                <p-tag [value]="item.status" [severity]="severityForStatus(item.status)"></p-tag>
-            </td>
-            <td>{{ item.species }}</td>
-            <td>{{ item.gender }}</td>
-            <td>
-                <button pButton type="button" label="Ver" icon="pi pi-eye" (click)="openDetail(item)"></button>
-            </td>
-        </tr>
-    </ng-template>
+        <ng-template #body let-item>
+            <tr>
+                <td>
+                    <img [src]="item.image" [alt]="item.name" class="avatar" />
+                </td>
+                <td>
+                    <div class="name">{{ item.name }}</div>
+                </td>
+                <td>
+                    <app-tag [value]="item.status" [severity]="severityForStatus(item.status)"></app-tag>
+                </td>
+                <td>{{ item.species }}</td>
+                <td>{{ item.gender }}</td>
+                <td>
+                    <app-button label="Ver" icon="pi pi-eye" (click)="openDetail(item)"></app-button>
+                </td>
+            </tr>
+        </ng-template>
 
-    <ng-template pTemplate="emptymessage">
-        <tr>
-            <td colspan="6" class="empty">No hay personajes para mostrar.</td>
-        </tr>
-    </ng-template>
-</p-table>
+        <ng-template #emptymessage>
+            <tr>
+                <td colspan="6" class="empty">No hay personajes para mostrar.</td>
+            </tr>
+        </ng-template>
+    </app-table>
+} @placeholder {
+    <div class="table-skeleton"></div>
+} @loading (minimum 500ms) {
+    <div class="table-loading">
+        <div class="spinner"></div>
+        <p>Cargando personajes...</p>
+    </div>
+}
 
-<p-dialog
+<app-dialog
     header="Detalle del personaje"
     [(visible)]="dialogOpen"
     [modal]="true"
     [dismissableMask]="true"
     [closable]="true"
-    [draggable]="false"
-    [resizable]="false"
-    [style]="{ width: '720px', maxWidth: '95vw' }"
     styleClass="rm-dialog">
-    <div *ngIf="detailLoading()" class="dialog-loading">
-        Cargando detalle...
-    </div>
-
-    <div *ngIf="!detailLoading() && selectedCharacter() as c" class="dialog-body">
-        <img [src]="c.image" [alt]="c.name" class="dialog-image" />
-
-        <div class="dialog-info">
-            <div class="dialog-title">{{ c.name }}</div>
-
-            <div class="dialog-row">
-                <span class="label">Estado</span>
-                <p-tag [value]="c.status" [severity]="severityForStatus(c.status)"></p-tag>
-            </div>
-
-            <div class="dialog-row"><span class="label">Especie</span><span>{{ c.species }}</span></div>
-            <div class="dialog-row"><span class="label">Tipo</span><span>{{ c.type || '—' }}</span></div>
-            <div class="dialog-row"><span class="label">Género</span><span>{{ c.gender }}</span></div>
-            <div class="dialog-row"><span class="label">Origen</span><span>{{ c.originName }}</span></div>
-            <div class="dialog-row"><span class="label">Ubicación</span><span>{{ c.locationName }}</span></div>
-            <div class="dialog-row"><span class="label">Episodios</span><span>{{ c.episodeCount }}</span></div>
+    
+    @if (detailLoading()) {
+        <div class="dialog-loading">
+            Cargando detalle...
         </div>
-    </div>
-</p-dialog>
+    }
+
+    @if (!detailLoading() && selectedCharacter(); as c) {
+        <div class="dialog-body">
+            <img [src]="c.image" [alt]="c.name" class="dialog-image" />
+
+            <div class="dialog-info">
+                <div class="dialog-title">{{ c.name }}</div>
+
+                <div class="dialog-row">
+                    <span class="label">Estado</span>
+                    <app-tag [value]="c.status" [severity]="severityForStatus(c.status)"></app-tag>
+                </div>
+
+                <div class="dialog-row"><span class="label">Especie</span><span>{{ c.species }}</span></div>
+                <div class="dialog-row"><span class="label">Tipo</span><span>{{ c.type || '—' }}</span></div>
+                <div class="dialog-row"><span class="label">Género</span><span>{{ c.gender }}</span></div>
+                <div class="dialog-row"><span class="label">Origen</span><span>{{ c.originName }}</span></div>
+                <div class="dialog-row"><span class="label">Ubicación</span><span>{{ c.locationName }}</span></div>
+                <div class="dialog-row"><span class="label">Episodios</span><span>{{ c.episodeCount }}</span></div>
+            </div>
+        </div>
+    }
+</app-dialog>

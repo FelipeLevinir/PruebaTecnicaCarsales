@@ -1,0 +1,85 @@
+<div [class]="'table-wrapper ' + styleClass">
+  @if (loading) {
+    <div class="table-loading">
+      <div class="table-spinner"></div>
+      <p>Cargando datos...</p>
+    </div>
+  }
+
+  <div class="table-container" [class.table-loading-overlay]="loading">
+    <table class="table" [ngStyle]="tableStyle">
+      <thead class="table-thead">
+        <ng-container *ngTemplateOutlet="headerTemplate"></ng-container>
+      </thead>
+
+      <tbody class="table-tbody">
+        @if (displayedValue.length > 0) {
+          @for (item of displayedValue; track item) {
+            <ng-container *ngTemplateOutlet="bodyTemplate; context: { $implicit: item }"></ng-container>
+          }
+        } @else if (!loading) {
+          <ng-container *ngTemplateOutlet="emptyTemplate"></ng-container>
+        }
+      </tbody>
+    </table>
+  </div>
+
+  @if (paginator && !loading) {
+    <div class="table-paginator">
+      <div class="paginator-left">
+        <span class="paginator-text">{{ paginatorText }}</span>
+        
+        <select 
+          class="paginator-rows-select"
+          [value]="currentRows"
+          (change)="changeRowsPerPage(+$any($event.target).value)">
+          @for (option of rowsPerPageOptions; track option) {
+            <option [value]="option">{{ option }} / página</option>
+          }
+        </select>
+      </div>
+
+      <div class="paginator-right">
+        <button 
+          type="button"
+          class="paginator-btn"
+          [disabled]="!canGoPrevious"
+          (click)="goToFirstPage()"
+          title="Primera página">
+          <i class="pi pi-angle-double-left"></i>
+        </button>
+
+        <button 
+          type="button"
+          class="paginator-btn"
+          [disabled]="!canGoPrevious"
+          (click)="goToPreviousPage()"
+          title="Página anterior">
+          <i class="pi pi-angle-left"></i>
+        </button>
+
+        <span class="paginator-page-info">
+          Página {{ currentPage + 1 }} de {{ totalPages }}
+        </span>
+
+        <button 
+          type="button"
+          class="paginator-btn"
+          [disabled]="!canGoNext"
+          (click)="goToNextPage()"
+          title="Página siguiente">
+          <i class="pi pi-angle-right"></i>
+        </button>
+
+        <button 
+          type="button"
+          class="paginator-btn"
+          [disabled]="!canGoNext"
+          (click)="goToLastPage()"
+          title="Última página">
+          <i class="pi pi-angle-double-right"></i>
+        </button>
+      </div>
+    </div>
+  }
+</div>

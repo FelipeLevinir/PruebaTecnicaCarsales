@@ -1,0 +1,25 @@
+@if (visible) {
+  <div class="dialog-mask" (click)="onMaskClick()">
+    <div [class]="'dialog ' + styleClass" (click)="onDialogClick($event)">
+      @if (header || closable) {
+        <div class="dialog-header">
+          <span class="dialog-title">{{ header }}</span>
+          
+          @if (closable) {
+            <button 
+              type="button"
+              class="dialog-close"
+              (click)="close()"
+              aria-label="Cerrar">
+              ×
+            </button>
+          }
+        </div>
+      }
+
+      <div class="dialog-content">
+        <ng-content></ng-content>
+      </div>
+    </div>
+  </div>
+}

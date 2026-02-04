@@ -7,14 +7,12 @@ import { switchMap, finalize, catchError, tap } from 'rxjs/operators';
 import { CharactersService } from '../../data-access/characters/characters.service';
 import { CharacterDetailDto, CharacterListItemDto, CharacterPageDto } from '../../data-access/characters/characters.models';
 
-import { TableModule } from 'primeng/table';
-import { InputTextModule } from 'primeng/inputtext';
-import { DropdownModule } from 'primeng/dropdown';
-import { DialogModule } from 'primeng/dialog';
-import { ButtonModule } from 'primeng/button';
-import { TagModule } from 'primeng/tag';
-
-type PrimeTablePageEvent = { first: number; rows: number };
+import { TableComponent, PageEvent } from '../../shared/components/table/table.component';
+import { InputComponent } from '../../shared/components/input/input.component';
+import { DropdownComponent } from '../../shared/components/dropdown/dropdown.component';
+import { DialogComponent } from '../../shared/components/dialog/dialog.component';
+import { ButtonComponent } from '../../shared/components/button/button.component';
+import { TagComponent } from '../../shared/components/tag/tag.component';
 
 type SelectOption = { label: string; value: string };
 
@@ -23,12 +21,12 @@ type SelectOption = { label: string; value: string };
   standalone: true,
   imports: [
     CommonModule,
-    TableModule,
-    InputTextModule,
-    DropdownModule,
-    DialogModule,
-    ButtonModule,
-    TagModule,
+    TableComponent,
+    InputComponent,
+    DropdownComponent,
+    DialogComponent,
+    ButtonComponent,
+    TagComponent,
     FormsModule
   ],
   templateUrl: './characters.component.html',
@@ -105,12 +103,11 @@ export class CharactersComponent {
     this.loadPageRequests.next(safePage);
   }
 
-  onSearch(event: Event): void {
-    const target = event.target;
-    if (target instanceof HTMLInputElement) this.searchText.set(target.value);
+  onSearch(value: string): void {
+    this.searchText.set(value);
   }
 
-  onPageChange(event: PrimeTablePageEvent): void {
+  onPageChange(event: PageEvent): void {
     const rows = event.rows;
     const first = event.first;
 
@@ -118,7 +115,6 @@ export class CharactersComponent {
 
     const nextPage = Math.floor(first / rows) + 1;
 
-    // evita pedir páginas fuera de rango (sobre todo si totalPages cambia)
     const bounded = Math.min(Math.max(1, nextPage), this.totalPages());
     if (bounded !== this.page()) this.loadPage(bounded);
   }

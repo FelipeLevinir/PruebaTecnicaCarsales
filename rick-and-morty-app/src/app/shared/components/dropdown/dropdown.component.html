@@ -1,0 +1,25 @@
+<div class="dropdown" [class.dropdown-open]="isOpen" [class.dropdown-disabled]="disabled">
+  <button 
+    type="button"
+    class="dropdown-trigger"
+    (click)="toggleDropdown()"
+    [disabled]="disabled">
+    <span class="dropdown-label">{{ getSelectedLabel() }}</span>
+    <i class="pi pi-chevron-down dropdown-icon"></i>
+  </button>
+
+  @if (isOpen) {
+    <div class="dropdown-panel">
+      <ul class="dropdown-list">
+        @for (option of options; track option) {
+          <li 
+            class="dropdown-item"
+            [class.dropdown-item-selected]="isSelected(option)"
+            (click)="selectOption(option)">
+            {{ optionLabel ? option[optionLabel] : option }}
+          </li>
+        }
+      </ul>
+    </div>
+  }
+</div>

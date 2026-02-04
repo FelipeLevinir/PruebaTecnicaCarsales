@@ -1,8 +1,0 @@
-<div *ngIf="error$ | async as e" class="error">
-  <div class="error-header">
-    <div class="error-title">{{ e.title }}</div>
-    <button type="button" class="error-close" (click)="clear()">Cerrar</button>
-  </div>
-  <div class="error-detail">{{ e.detail }}</div>
-  <small *ngIf="e.traceId" class="error-trace">traceId: {{ e.traceId }}</small>
-</div>
