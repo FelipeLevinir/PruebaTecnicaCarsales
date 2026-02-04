@@ -48,6 +48,7 @@
   position: relative;
   animation: fadeInUp 0.5s ease-out backwards;
   animation-delay: 0.1s;
+  z-index: 100;
 }
 
 /* Toolbar accent line */

@@ -1,47 +1,23 @@
-﻿using Bff.Infrastructure.RickAndMorty;
+﻿using Bff.Application.Characters.Mappers;
+using Bff.Infrastructure.RickAndMorty;
 
 namespace Bff.Application.Characters;
 
-public sealed class CharacterService(IRickAndMortyClient rickAndMortyClient) : ICharacterService
+public sealed class CharacterService(
+    IRickAndMortyClient rickAndMortyClient,
+    ICharacterMapper characterMapper) : ICharacterService
 {
     public async Task<CharacterPageDto> GetCharactersAsync(int page, CancellationToken cancellationToken)
     {
         var apiPage = await rickAndMortyClient.GetCharactersAsync(page, cancellationToken);
 
-        var items = apiPage.Results
-            .Select(c => new CharacterListItemDto(
-                Id: c.Id,
-                Name: c.Name,
-                Status: c.Status,
-                Species: c.Species,
-                Gender: c.Gender,
-                Image: c.Image
-            ))
-            .ToList();
-
-        return new CharacterPageDto(
-            Page: page <= 0 ? 1 : page,
-            TotalPages: apiPage.Info.Pages,
-            TotalCount: apiPage.Info.Count,
-            Items: items
-        );
+        return characterMapper.ToPage(apiPage, page);
     }
 
     public async Task<CharacterDetailDto> GetCharacterByIdAsync(int id, CancellationToken cancellationToken)
     {
-        var c = await rickAndMortyClient.GetCharacterByIdAsync(id, cancellationToken);
+        var character = await rickAndMortyClient.GetCharacterByIdAsync(id, cancellationToken);
 
-        return new CharacterDetailDto(
-            Id: c.Id,
-            Name: c.Name,
-            Status: c.Status,
-            Species: c.Species,
-            Type: c.Type,
-            Gender: c.Gender,
-            OriginName: c.Origin?.Name ?? "",
-            LocationName: c.Location?.Name ?? "",
-            Image: c.Image,
-            EpisodeCount: c.Episode?.Count ?? 0
-        );
+        return characterMapper.ToDetail(character);
     }
 }

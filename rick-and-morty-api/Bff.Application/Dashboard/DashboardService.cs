@@ -1,44 +1,22 @@
-﻿using Bff.Application.Characters;
-using Bff.Application.Episodes;
+﻿using Bff.Application.Dashboard.Mappers;
 using Bff.Infrastructure.RickAndMorty;
 
 namespace Bff.Application.Dashboard;
 
-public sealed class DashboardService(IRickAndMortyClient rickAndMortyClient) : IDashboardService
+public sealed class DashboardService(
+    IRickAndMortyClient rickAndMortyClient,
+    IDashboardMapper dashboardMapper) : IDashboardService
 {
     public async Task<DashboardDto> GetDashboardAsync(CancellationToken cancellationToken)
     {
-        var episodesPage = await rickAndMortyClient.GetEpisodesAsync(page: 1, cancellationToken);
-        var charactersPage = await rickAndMortyClient.GetCharactersAsync(page: 1, cancellationToken);
+        var episodesTask = rickAndMortyClient.GetEpisodesAsync(page: 1, cancellationToken);
+        var charactersTask = rickAndMortyClient.GetCharactersAsync(page: 1, cancellationToken);
 
-        var latestEpisodes = episodesPage.Results
-            .Take(5)
-            .Select(e => new EpisodeListItemDto(
-                Id: e.Id,
-                Name: e.Name,
-                Code: e.Episode,
-                AirDate: e.Air_Date,
-                CharacterCount: e.Characters?.Count ?? 0
-            ))
-            .ToList();
+        await Task.WhenAll(episodesTask, charactersTask);
 
-        var featuredCharacters = charactersPage.Results
-            .Take(8)
-            .Select(c => new CharacterListItemDto(
-                Id: c.Id,
-                Name: c.Name,
-                Status: c.Status,
-                Species: c.Species,
-                Gender: c.Gender,
-                Image: c.Image
-            ))
-            .ToList();
+        var episodesPage = await episodesTask;
+        var charactersPage = await charactersTask;
 
-        return new DashboardDto(
-            TotalEpisodes: episodesPage.Info.Count,
-            TotalCharacters: charactersPage.Info.Count,
-            LatestEpisodes: latestEpisodes,
-            FeaturedCharacters: featuredCharacters
-        );
+        return dashboardMapper.ToDashboard(episodesPage, charactersPage);
     }
 }
